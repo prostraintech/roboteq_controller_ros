@@ -17,7 +17,7 @@ RoboteqDriver::RoboteqDriver(ros::NodeHandle nh, ros::NodeHandle nh_priv):
 
 	nh_priv_.param("closed_loop", closed_loop_, true);
 	nh_priv_.param("diff_drive_mode", diff_drive_mode_, true);
-	if (close){
+	if (closed_loop_){
 		ROS_WARN_STREAM(tag << "In CLOSED-LOOP mode!!!!");
 	}
 	else{
