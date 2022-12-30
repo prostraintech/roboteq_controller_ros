@@ -9,9 +9,10 @@ RoboteqDriver::RoboteqDriver(ros::NodeHandle nh, ros::NodeHandle nh_priv):
 	wheel_circumference_(0.),
 	track_width_(0.),
 	max_rpm_(0.),
+	gear_reduction_(0.),
 	frequency_(0){
 	
-	nh_priv.param<std::string>("serial_port", serial_port_, "dev/ttyUSB0");
+	nh_priv.param<std::string>("serial_port", serial_port_, "/dev/ttyACM0");
 	nh_priv.param("baudrate", baudrate_, 112500);
 
 	nh_priv_.param("closed_loop", closed_loop_, false);
@@ -34,6 +35,10 @@ RoboteqDriver::RoboteqDriver(ros::NodeHandle nh, ros::NodeHandle nh_priv):
 	nh_priv.getParam("max_rpm", max_rpm_);
 	if ( max_rpm_ <=0.0 ){
 		ROS_ERROR_STREAM(tag << "Inproper configuration! max_rpm need to be greater than zero.");
+	}
+	nh_priv.getParam("gear_reduction", gear_reduction_);
+	if ( gear_reduction_ <=0.0 ){
+		ROS_ERROR_STREAM(tag << "Inproper configuration! gear_reduction need to be greater than zero.");
 	}
 
 	nh_priv_.param<std::string>("cmd_vel_topic", cmd_vel_topic_, "/cmd_vel");
@@ -180,8 +185,8 @@ void RoboteqDriver::cmdVelCallback(const geometry_msgs::Twist &msg){
 	}
 	else{
 		// motor speed (rpm)
-		int32_t right_rpm = right_speed *60.0 / wheel_circumference_;
-		int32_t left_rpm  = left_speed  *60.0 / wheel_circumference_;
+		int32_t right_rpm = gear_reduction_ * right_speed * 60.0 / wheel_circumference_;
+		int32_t left_rpm  = gear_reduction_ * left_speed  * 60.0 / wheel_circumference_;
 
 		ROS_INFO("[ROBOTEQ] left: %9d right: %9d", left_rpm, right_rpm);
 		cmd_str << "!S 1"
