@@ -1,10 +1,12 @@
+<?xml version="1.0" ?>
+
 <launch>
 
-    <arg name="launch_prefix"         default=""/>
-    <!-- <arg name="launch_prefix"         default="gdb -ex run -args"/> -->
+    <arg name="launch_prefix" default=""/>
     <node name = "roboteq_controller" pkg = "roboteq_controller" type = "roboteq_controller_node" ns="roboteq" output = "screen" launch-prefix="$(arg launch_prefix)" >
         <rosparam command="load" file="$(find roboteq_controller)/config/query.yaml" />
     </node>
 
- 
+    <node pkg="roboteq_controller" type="roboteq_io.py" name="roboteq_io" output="screen" />
+
 </launch>
