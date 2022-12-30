@@ -5,16 +5,16 @@ from std_msgs.msg import Float32
 
 class RoboteqProc(object):
     def __init__(self):
-        self.proc_digital_input_pub = rospy.Publisher('roboteq/proc/digital_input', DigitalInput, queue_size=10)
-        self.proc_digital_output_pub = rospy.Publisher('roboteq/proc/digital_output', DigitalOutput, queue_size=10)
-        self.proc_fault_flag_pub = rospy.Publisher('roboteq/proc/fault_flag', FaultFlag, queue_size=10)
-        self.proc_runtime_status_flag_pub = rospy.Publisher('roboteq/proc/runtime_status_flag', RuntimeStatusFlag, queue_size=10)
-        self.battery_level_pub = rospy.Publisher('roboteq/battery_level', Float32, queue_size=10)
-        rospy.Subscriber('roboteq/dig_in', channel_values, self.dig_in_sub_callback)
-        rospy.Subscriber('roboteq/dig_out', channel_values, self.dig_out_sub_callback)
-        rospy.Subscriber('roboteq/fault_flag', channel_values, self.fault_flag_sub_callback)
-        rospy.Subscriber('roboteq/runtime_status_flag', channel_values, self.runtime_status_flag_sub_callback)
-        rospy.Subscriber('roboteq/volts', channel_values, self.volts_sub_callback)
+        self.proc_digital_input_pub = rospy.Publisher('proc/digital_input', DigitalInput, queue_size=10)
+        self.proc_digital_output_pub = rospy.Publisher('proc/digital_output', DigitalOutput, queue_size=10)
+        self.proc_fault_flag_pub = rospy.Publisher('proc/fault_flag', FaultFlag, queue_size=10)
+        self.proc_runtime_status_flag_pub = rospy.Publisher('proc/runtime_status_flag', RuntimeStatusFlag, queue_size=10)
+        self.battery_level_pub = rospy.Publisher('proc/battery_level', Float32, queue_size=10)
+        rospy.Subscriber('dig_in', channel_values, self.dig_in_sub_callback)
+        rospy.Subscriber('dig_out', channel_values, self.dig_out_sub_callback)
+        rospy.Subscriber('fault_flag', channel_values, self.fault_flag_sub_callback)
+        rospy.Subscriber('runtime_status_flag', channel_values, self.runtime_status_flag_sub_callback)
+        rospy.Subscriber('volts', channel_values, self.volts_sub_callback)
 
     def D2B(self, n):
         return str(bin(n)[2:].zfill(16))

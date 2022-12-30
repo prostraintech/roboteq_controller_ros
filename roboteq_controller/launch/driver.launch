@@ -6,6 +6,6 @@
         <rosparam command="load" file="$(find roboteq_controller)/config/query.yaml" />
     </node>
 
-    <node pkg="roboteq_controller" type="roboteq_proc_node.py" name="roboteq_proc" output="screen" />
+    <node pkg="roboteq_controller" type="roboteq_proc_node.py" name="roboteq_proc" ns="roboteq" output="screen" />
 
 </launch>

@@ -22,7 +22,6 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 
-#include "roboteq_controller/querylist.h"
 #include "roboteq_controller/channel_values.h"
 #include "roboteq_controller/config_srv.h"
 #include "roboteq_controller/command_srv.h"

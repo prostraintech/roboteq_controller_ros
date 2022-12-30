@@ -143,44 +143,11 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/roboteq_motor_controller_driver_node.cpp)
+
 add_executable(roboteq_controller_node
- #src/main.cpp
  src/roboteq_controller_node.cpp)
- #src/configservice.cpp)
-
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
-
-## Add cmake target dependencies of the executable
-## same as for the library above
 add_dependencies(roboteq_controller_node  roboteq_controller_generate_messages_cpp)
-
 target_link_libraries(roboteq_controller_node
-  ${catkin_LIBRARIES}
-)
-
-add_executable(config_client
- src/config_client.cpp)
-add_dependencies(config_client  roboteq_controller_generate_messages_cpp)
-target_link_libraries(config_client
-  ${catkin_LIBRARIES}
-)
-
-add_executable(command_client
- src/command_client.cpp)
-add_dependencies(command_client  roboteq_controller_generate_messages_cpp)
-target_link_libraries(command_client
-  ${catkin_LIBRARIES}
-)
-
-
-add_executable(maintenance_client
- src/maintenance_client.cpp)
-add_dependencies(maintenance_client  roboteq_controller_generate_messages_cpp)
-target_link_libraries(maintenance_client
   ${catkin_LIBRARIES}
 )
 
@@ -191,20 +158,6 @@ target_link_libraries(diff_odom_node
   ${catkin_LIBRARIES}
 )
 
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
-#target_link_libraries(roboteq_motor_controller_driver
-#  ${catkin_LIBRARIES}
-#)
-
-#add_executable(roboteq_motor_controller_driver_node src/#roboteq_motor_controller_driver_node.cpp)
-
-
-
- 
 
 #############
 ## Install ##
