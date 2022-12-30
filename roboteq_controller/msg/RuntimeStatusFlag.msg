@@ -1,0 +1,16 @@
+bool amplim0
+bool amplim1
+bool stall0
+bool stall1
+bool looperror0
+bool looperror1
+bool safestop0
+bool safestop1
+bool fwdlimit0
+bool fwdlimit1
+bool revlimit0
+bool revlimit1
+bool amptrig0
+bool amptrig1
+bool fetsoff0
+bool fetsoff1

@@ -53,6 +53,10 @@ find_package(catkin REQUIRED COMPONENTS
  add_message_files(
    FILES
    channel_values.msg
+   DigitalInput.msg
+   DigitalOutput.msg
+   FaultFlag.msg
+   RuntimeStatusFlag.msg
 )
 
 ## Generate services in the 'srv' folder
