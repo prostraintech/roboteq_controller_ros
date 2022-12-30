@@ -41,7 +41,8 @@ private:
                         track_width_,
                         encoder_resolution_,
                         max_rpm_,
-                        max_angular_vel_;
+                        max_angular_vel_,
+                        gear_reduction_;
 
     const int64_t       encoder_min_,
                         encoder_max_;

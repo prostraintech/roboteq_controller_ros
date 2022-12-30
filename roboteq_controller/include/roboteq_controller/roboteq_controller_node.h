@@ -63,7 +63,8 @@ private:
 
 	double 					wheel_circumference_,
 							track_width_,
-							max_rpm_;
+							max_rpm_,
+							gear_reduction_;
 
 	std::string 			cmd_vel_topic_;
 
