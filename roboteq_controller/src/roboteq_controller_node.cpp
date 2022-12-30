@@ -15,8 +15,8 @@ RoboteqDriver::RoboteqDriver(ros::NodeHandle nh, ros::NodeHandle nh_priv):
 	nh_priv.param<std::string>("serial_port", serial_port_, "/dev/ttyACM0");
 	nh_priv.param("baudrate", baudrate_, 112500);
 
-	nh_priv_.param("closed_loop", closed_loop_, false);
-	nh_priv_.param("diff_drive_mode", diff_drive_mode_, false);
+	nh_priv_.param("closed_loop", closed_loop_, true);
+	nh_priv_.param("diff_drive_mode", diff_drive_mode_, true);
 	if (close){
 		ROS_WARN_STREAM(tag << "In CLOSED-LOOP mode!!!!");
 	}
@@ -105,15 +105,6 @@ void RoboteqDriver::cmdSetup(){
 		ser_.write("^MMOD 2 1\r");
 		ser_.flush();
 	}
-
-	// set encoder counts (ppr)
-	std::stringstream right_enccmd;
-	std::stringstream left_enccmd;
-	right_enccmd << "^EPPR 1 " << 1024 << "\r";
-	left_enccmd << "^EPPR 2 " << 1024 << "\r";
-	ser_.write(right_enccmd.str());
-	ser_.write(left_enccmd.str());
-	ser_.flush();
 }
 
 
@@ -253,10 +244,15 @@ void RoboteqDriver::formQuery(std::string param,
 							std::vector<ros::Publisher> &pubs,
 							std::stringstream &ser_str){
 	nh_priv_.getParam(param, queries);
+
+	// for(std::map<std::string,std::string>::const_iterator iter = queries.begin(); iter != queries.end(); ++iter)
+	// {
+	// 	ROS_INFO_STREAM(tag << iter->first << " , " << iter->second);
+	// }
+
 	for (std::map<std::string, std::string>::iterator iter = queries.begin(); iter != queries.end(); iter++){
 		ROS_INFO_STREAM(tag << "Publish topic: " << iter->first);
 		pubs.push_back(nh_.advertise<roboteq_controller::channel_values>(iter->first, 100));
-
 		std::string cmd = iter->second;
 		ser_str << cmd << "_";
 	}

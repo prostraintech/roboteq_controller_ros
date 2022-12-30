@@ -1,4 +1,4 @@
-serial_port : "/dev/roboteq_controller" # Udev rule to make a virtual port that's associated to specific hw
+serial_port : "/dev/ttyACM0" # Udev rule to make a virtual port that's associated to specific hw
 baudrate : 115200
 cmd_vel_topic: "/cmd_vel"
 
