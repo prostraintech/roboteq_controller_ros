@@ -6,7 +6,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/classification.hpp>
 
-
 #include <iostream>
 #include <sstream>
 #include <typeinfo>
@@ -24,14 +23,10 @@
 #include "std_msgs/msg/empty.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/odometry.hpp"
-
 #include "roboteq_interfaces/msg/channel_values.hpp"
-
-// #include "roboteq_controller/msg/config.hpp"
-// #include "roboteq_controller/msg/maintenance.hpp"
-
-// #include "roboteq_controller/querylist.h"
-// #include "roboteq_controller/channel_values.h"
+#include "roboteq_interfaces/srv/command.hpp"
+#include "roboteq_interfaces/srv/config.hpp"
+#include "roboteq_interfaces/srv/maintenance.hpp"
 
 
 using namespace std::chrono_literals;
@@ -58,6 +53,11 @@ private:
 	// Pub & Sub
 	rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr 		cmd_vel_sub_;
 	rclcpp::Publisher<std_msgs::msg::String>::SharedPtr 		serial_read_pub_;
+
+	// Service server
+	rclcpp::Service<roboteq_interfaces::srv::Config>::SharedPtr config_service_server_;
+	rclcpp::Service<roboteq_interfaces::srv::Command>::SharedPtr command_service_server_;
+	rclcpp::Service<roboteq_interfaces::srv::Maintenance>::SharedPtr maintenance_service_server_;
 	
 	std::vector<rclcpp::Publisher<roboteq_interfaces::msg::ChannelValues>::SharedPtr>  query_pub_;
 
@@ -75,9 +75,6 @@ private:
 
 	// queries
 	std::map<std::string, std::string>	queries_;
-
-	// int channel_number_1;
-	// int channel_number_2;
 	int frequency_;
 	std::mutex 				locker;
 
@@ -87,9 +84,11 @@ private:
 	void cmdSetup();
 	void cmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr);
 	void powerCmdCallback(const geometry_msgs::msg::Twist::SharedPtr);
-	// bool configService(roboteq_interfaces::config_srv::Request &, roboteq_interfaces::config_srv::Response &);
-	// bool commandService(roboteq_interfaces::command_srv::Request &, roboteq_interfaces::command_srv::Response &);
-	// bool maintenanceService(roboteq_interfaces::maintenance_srv::Request &, roboteq_interfaces::maintenance_srv::Response &);
+	
+	void configService(const std::shared_ptr<roboteq_interfaces::srv::Config::Request> request, std::shared_ptr<roboteq_interfaces::srv::Config::Response> response);
+	void commandService(const std::shared_ptr<roboteq_interfaces::srv::Command::Request> request, std::shared_ptr<roboteq_interfaces::srv::Command::Response> response);
+	void maintenanceService(const std::shared_ptr<roboteq_interfaces::srv::Maintenance::Request> request, std::shared_ptr<roboteq_interfaces::srv::Maintenance::Response> response);
+
 	void initializeServices();
 	void run();
 
