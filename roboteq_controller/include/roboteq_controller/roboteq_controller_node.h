@@ -6,32 +6,42 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/classification.hpp>
 
-#include <serial/serial.h>
+
 #include <iostream>
 #include <sstream>
 #include <typeinfo>
 #include <cassert>
 #include <mutex>
 #include <math.h>
+#include <chrono>
+#include <memory>
+#include <vector>
+#include <map>
 
-#include <ros/ros.h>
-#include <tf/tf.h>
+#include <serial/serial.h>
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/string.hpp"
+#include "std_msgs/msg/empty.hpp"
+#include "geometry_msgs/msg/twist.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 
-#include <std_msgs/String.h>
-#include <std_msgs/Empty.h>
-#include <geometry_msgs/Twist.h>
-#include <nav_msgs/Odometry.h>
+#include "roboteq_interfaces/msg/channel_values.hpp"
 
-#include "roboteq_controller/channel_values.h"
-#include "roboteq_controller/config_srv.h"
-#include "roboteq_controller/command_srv.h"
-#include "roboteq_controller/maintenance_srv.h"
+// #include "roboteq_controller/msg/config.hpp"
+// #include "roboteq_controller/msg/maintenance.hpp"
+
+// #include "roboteq_controller/querylist.h"
+// #include "roboteq_controller/channel_values.h"
 
 
-class RoboteqDriver
+using namespace std::chrono_literals;
+using std::placeholders::_1;
+
+class RoboteqDriver : public rclcpp::Node
 {
 public:
-	RoboteqDriver(ros::NodeHandle, ros::NodeHandle);
+	explicit RoboteqDriver(const rclcpp::NodeOptions &options = rclcpp::NodeOptions());
+
 	~RoboteqDriver(){
 		if (ser_.isOpen()){
 			ser_.close();
@@ -39,11 +49,6 @@ public:
 	}
 
 private:
-	ros::NodeHandle 		nh_, nh_priv_;
-
-	ros::ServiceServer 		configsrv_;
-	ros::ServiceServer 		commandsrv_;
-	ros::ServiceServer 		maintenancesrv_;
 	
 	// Serial
 	serial::Serial 			ser_;
@@ -51,11 +56,12 @@ private:
 	int32_t 				baudrate_;
 
 	// Pub & Sub
-	ros::Subscriber 		cmd_vel_sub_;
-	ros::Publisher 			serial_read_pub_;
-	std::vector<ros::Publisher> query_pub_;
+	rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr 		cmd_vel_sub_;
+	rclcpp::Publisher<std_msgs::msg::String>::SharedPtr 		serial_read_pub_;
+	
+	std::vector<rclcpp::Publisher<roboteq_interfaces::msg::ChannelValues>::SharedPtr>  query_pub_;
 
-	ros::Timer 				timer_pub_;
+	rclcpp::TimerBase::SharedPtr 				timer_pub_;
 
 	bool 					closed_loop_,
 							diff_drive_mode_;
@@ -67,25 +73,26 @@ private:
 
 	std::string 			cmd_vel_topic_;
 
+	// queries
+	std::map<std::string, std::string>	queries_;
+
 	// int channel_number_1;
 	// int channel_number_2;
 	int frequency_;
 	std::mutex 				locker;
 
+	void declare();
+	void init();
+
 	void cmdSetup();
-	void cmdVelCallback(const geometry_msgs::Twist &);
-	void powerCmdCallback(const geometry_msgs::Twist &);
-	bool configService(roboteq_controller::config_srv::Request &, roboteq_controller::config_srv::Response &);
-	bool commandService(roboteq_controller::command_srv::Request &, roboteq_controller::command_srv::Response &);
-	bool maintenanceService(roboteq_controller::maintenance_srv::Request &, roboteq_controller::maintenance_srv::Response &);
+	void cmdVelCallback(const geometry_msgs::msg::Twist::SharedPtr);
+	void powerCmdCallback(const geometry_msgs::msg::Twist::SharedPtr);
+	// bool configService(roboteq_interfaces::config_srv::Request &, roboteq_interfaces::config_srv::Response &);
+	// bool commandService(roboteq_interfaces::command_srv::Request &, roboteq_interfaces::command_srv::Response &);
+	// bool maintenanceService(roboteq_interfaces::maintenance_srv::Request &, roboteq_interfaces::maintenance_srv::Response &);
 	void initializeServices();
 	void run();
 
-	void formQuery(std::string, 
-				std::map<std::string,std::string> &, 
-				std::vector<ros::Publisher> &,
-				std::stringstream &);
-
-	void queryCallback	(const ros::TimerEvent &);
+	void queryCallback();
 
 };

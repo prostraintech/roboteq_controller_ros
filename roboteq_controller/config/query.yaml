@@ -1,31 +1,33 @@
-serial_port : "/dev/ttyACM0" # Udev rule to make a virtual port that's associated to specific hw
-baudrate : 115200
-cmd_vel_topic: "/cmd_vel"
+roboteq_controller_node:
+  ros__parameters:
+    serial_port : "/dev/ttyACM0" # Udev rule to make a virtual port that's associated to specific hw
+    baudrate : 115200
+    cmd_vel_topic: "/cmd_vel"
 
-closed_loop: true
+    closed_loop: true
 
-# For differential drive control (dual channel controller)
-diff_drive_mode: true
-wheel_circumference: 0.6377 # [m]
-track_width: 0.493 # [m]
-max_rpm: 1600 # [rpm]
-encoder_resolution: 400
-gear_reduction: 17 # motor to wheel gear reduction
+    # For differential drive control (dual channel controller)
+    diff_drive_mode: true
+    wheel_circumference: 0.6377 # [m]
+    track_width: 0.493 # [m]
+    max_rpm: 1600.0 # [rpm]
+    encoder_resolution: 400.0
+    gear_reduction: 17.0 # motor to wheel gear reduction
 
-# For querying data from the motor controller
-frequency: 50   #higher frequency (value is in ms)
-query:
-  motor_amps : ?A
-  motor_command : ?M
-  hall_count : ?CB
-  hall_speed : ?BS
-  volts : ?V
-  #battery_amps : ?BA
-  # power : ?P          
-  fault_flag : ?FF
-  encoder_count : ?C
-  encoder_speed : ?S
-  dig_in : ?D 1
-  dig_out : ?Do
-  position_reached: ?DR
-  runtime_status_flag: ?FM
+    # For querying data from the motor controller
+    frequency: 50   #higher frequency (value is in ms)
+    query:
+      motor_amps : ?A
+      motor_command : ?M
+      hall_count : ?CB
+      hall_speed : ?BS
+      volts : ?V
+      #battery_amps : ?BA
+      # power : ?P          
+      fault_flag : ?FF
+      encoder_count : ?C
+      encoder_speed : ?S
+      dig_in : ?D 1
+      dig_out : ?Do
+      position_reached: ?DR
+      runtime_status_flag: ?FM
