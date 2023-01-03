@@ -1,7 +1,7 @@
 bool overheat
 bool overvolt
 bool undervolt
-bool short
+bool shortt
 bool estop
 bool motorsensor
 bool mosfail

@@ -13,10 +13,10 @@ find_package(rosidl_default_generators REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ChannelValues.msg"
-  # "msg/DigitalInput.msg"
-  # "msg/DigitalOutput.msg"
-  # "msg/FaultFlag.msg"
-  # "msg/RuntimeStatusFlag.msg"
+  "msg/DigitalInput.msg"
+  "msg/DigitalOutput.msg"
+  "msg/FaultFlag.msg"
+  "msg/RuntimeStatusFlag.msg"
   "srv/Command.srv"
   "srv/Config.srv"
   "srv/Maintenance.srv"

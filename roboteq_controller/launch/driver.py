@@ -11,11 +11,21 @@ def generate_launch_description():
         'query.yaml'
         )
 
-    node=Node(
+    # TODO - use roboteq namespace, set log level
+
+    node1=Node(
         package = 'roboteq_controller',
         name = 'roboteq_controller_node',
         executable = 'roboteq_controller_node',
         parameters = [config]
     )
-    ld.add_action(node)
+
+    node2=Node(
+        package = 'roboteq_controller',
+        name = 'roboteq_proc_node',
+        executable = 'roboteq_proc_node.py'
+    )
+
+    ld.add_action(node1)
+    ld.add_action(node2)
     return ld

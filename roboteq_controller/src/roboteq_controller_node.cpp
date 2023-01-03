@@ -4,7 +4,7 @@
 static const std::string tag {""};
 
 void RoboteqDriver::declare(){
-	declare_parameter<std::string>("serial_port", "dev/ttyUSB0");
+	declare_parameter<std::string>("serial_port", "dev/ttyACM0");
 	declare_parameter("baudrate", 115200);
 	declare_parameter("closed_loop", true);
 	declare_parameter("diff_drive_mode", true);
@@ -67,7 +67,7 @@ void RoboteqDriver::init(){
 	auto param_interface = this->get_node_parameters_interface();
 	std::map<std::string, rclcpp::ParameterValue> params = param_interface->get_parameter_overrides();
 
-	RCLCPP_INFO_STREAM(this->get_logger(), tag << "queries:" );
+	// RCLCPP_INFO_STREAM(this->get_logger(), tag << "queries:" );
 
 	for (auto iter = params.begin(); iter != params.end(); iter++){
 		std::size_t pos = iter->first.find("query");
@@ -77,7 +77,7 @@ void RoboteqDriver::init(){
 			auto query = iter->second.to_value_msg().string_value;
 			
 			queries_[topic] =  query;
-			RCLCPP_INFO(this->get_logger(), "%15s : %s",  topic.c_str(), query.c_str() );
+			// RCLCPP_INFO(this->get_logger(), "%15s : %s",  topic.c_str(), query.c_str() );
 		}
 	}
 }
