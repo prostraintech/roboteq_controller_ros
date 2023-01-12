@@ -26,7 +26,6 @@
 - Removed unnecessary files and cleaned some functions.
 - Gear reduction (motor to wheel) parameter for closed loop rpm calculation is added in `roboteq_controller_node`.
 - Added `roboteq_proc_node` which publishes 5 new topics: proc/digital_input, proc/digital_output, proc/fault_flag, proc/runtime_status_flag, proc/battery_level. Digital input, digital output, fault flag, and runtime status flag are published in a structured boolean form instead of integer. Battery level can be mapped from volts reading and published according to your hardware.
-- Added serial-ros2 repo as submodule of this repository so that roboteq packages can be built directly.
 
 
 ## Installation

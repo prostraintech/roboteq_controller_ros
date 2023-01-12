@@ -1,3 +1,0 @@
-[submodule "serial-ros2"]
-	path = serial-ros2
-	url = https://github.com/prostraintech/serial-ros2.git
