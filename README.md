@@ -1,7 +1,7 @@
 # Roboteq Controller ROS [![Badge License]][License]
 *ROS driver for RoboteQ motor controller via serial communication*
 - *This repository was mirrored from DoanNguyenTrong's fork of the original repository from Roboteq-Inc ([link](https://github.com/DoanNguyenTrong/roboteq_controller_ros)), hence contain previous commit history.*
-- *This repository was not forked as there is no intention to merge with the original branch*
+- *This repository was not forked as there is no intention to merge with the original branch.*
 - *The packages were tested using SBL2360T controller via serial communication.*
 #
 
@@ -25,7 +25,8 @@
 - Two new branches were created from `FW2.1` branch, namely `ps-ros1` and `ps-ros2` for ROS1 and ROS2 development respectively. The `ps-ros1` and `ps-ros2` branch were developed on ROS Melodic and ROS2 Foxy.
 - Removed unnecessary files and cleaned some functions.
 - Gear reduction (motor to wheel) parameter for closed loop rpm calculation is added in `roboteq_controller_node`.
-- Added `roboteq_proc_node` which publishes 4 new topics: proc/digital_input, proc/digital_output, proc/fault_flag, proc/runtime_status_flag, proc/battery_level. Digital input, digital output, fault flag, and runtime status flag are published in a structured boolean form instead of integer. Battery level can be mapped from volts reading and published according to your hardware.
+- Added `roboteq_proc_node` which publishes 5 new topics: proc/digital_input, proc/digital_output, proc/fault_flag, proc/runtime_status_flag, proc/battery_level. Digital input, digital output, fault flag, and runtime status flag are published in a structured boolean form instead of integer. Battery level can be mapped from volts reading and published according to your hardware.
+- Added serial-ros2 repo as submodule of this repository so that roboteq packages can be built directly.
 
 
 ## Installation
