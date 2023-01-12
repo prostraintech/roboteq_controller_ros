@@ -34,7 +34,7 @@
 1.  Clone the repository
 ```shell
 cd ros2_ws/src/
-git clone -b ps-ros2 https://github.com/prostraintech/roboteq_controller_ros.git
+git clone -b ps-ros2 --recurse-submodules https://github.com/prostraintech/roboteq_controller_ros.git
 ```
 
 2. Build the packages 
