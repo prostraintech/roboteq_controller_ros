@@ -17,13 +17,15 @@ def generate_launch_description():
         package = 'roboteq_controller',
         name = 'roboteq_controller_node',
         executable = 'roboteq_controller_node',
-        parameters = [config]
+        parameters = [config],
+        namespace= 'roboteq'
     )
 
     node2=Node(
         package = 'roboteq_controller',
         name = 'roboteq_proc_node',
-        executable = 'roboteq_proc_node.py'
+        executable = 'roboteq_proc_node.py',
+        namespace= 'roboteq'
     )
 
     ld.add_action(node1)
